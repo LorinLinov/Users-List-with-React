@@ -1,11 +1,23 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import Table from './Table';
 import Pagination from './Pagination';
 import UserDetails from './UserDetails';
 import CreateAndEdit from './CreateAndEdit';
 import Delete from './Delete';
 
-export default function MainComp() {
+export default function MainComp({ users }) {
+
+  const [showCreateForm, setShowCreateForm] = useState(false);
+
+  const addNewUserHandler = () =>{
+    setShowCreateForm(true);
+  }
+
+  const onClose = () => {
+    setShowCreateForm(false);
+  }
+
   return (
     <main className="main">
       <section className="card users-container">
@@ -22,19 +34,18 @@ export default function MainComp() {
           </h2>
         </div>
 
-        {/* Table component*/}
-        <Table />
+        <Table users={users} />
 
-        {/* New user button */}
-        <button className="btn-add btn">Add new user</button>
+        <button className="btn-add btn" onClick={() => addNewUserHandler()}>
+          Add new user
+        </button>
 
-        {/* Pagination component */}
         <Pagination />
       </section>
 
       {/*<UserDetails />*/}
 
-      {/*<CreateAndEdit />*/}
+      {showCreateForm && <CreateAndEdit onClose={onClose} action="create" />}
 
       {/*<Delete />*/}
 
